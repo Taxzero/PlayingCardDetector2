@@ -3,7 +3,7 @@ import numpy as np
 from ultralytics import YOLO
 
 # YOLOv8 모델 로드
-model = YOLO('C:/Users/syoun/repos/PlayingCardDetector2/yolov8n.pt')  # 학습된 모델 경로
+model = YOLO('C:/Users/syoun/repos/PlayingCardDetector2/runs/detect/train5/weights/best.pt')  # 학습된 모델 경로
 
 def four_point_transform(image, pts):
     rect = np.array(pts, dtype="float32")
@@ -38,11 +38,21 @@ while True:
     
     # YOLOv8 모델을 사용하여 카드 감지
     results = model(frame)
-    boxes = results[0].boxes.xyxy  # 감지된 경계 상자 (xmin, ymin, xmax, ymax)
+    detections = results[0].boxes  # 감지된 경계 상자
     
-    for box in boxes:
-        xmin, ymin, xmax, ymax = map(int, box[:4])
-        pts = np.array([[xmin, ymin], [xmax, ymin], [xmax, ymax], [xmin, ymax]])
+    for detection in detections:
+        xmin, ymin, xmax, ymax = map(int, detection.xyxy[0])
+        confidence = detection.conf[0]
+        class_id = detection.cls[0]
+        
+        # 경계 상자 그리기
+        cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
+        
+        # 라벨 텍스트 추가
+        label = f'{model.names[int(class_id)]}: {confidence:.2f}'
+        cv2.putText(frame, label, (xmin, ymin - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        
+        pts = np.array([[xmin, ymin], [xmax, ymin], [xmax, ymax], [xmin, ymax]], dtype="float32")
         
         # 카드 정렬
         aligned_card = four_point_transform(frame, pts)
