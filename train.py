@@ -19,7 +19,7 @@ if __name__ == '__main__':
     model = YOLO('yolov8s.pt').to(device)
 
     # 데이터셋 경로 설정
-    data_path = 'C:/Users/syoun/repos/PlayingCardDetector2/dataset.yaml'
+    data_path = 'C:/Users/bjkim/repos/PlayingCardDetector2/dataset.yaml'
 
     # 모델 학습
-    model.train(data=data_path, epochs=20, imgsz=640, batch=16, device=device, workers=4)
+    model.train(data=data_path, epochs=263, imgsz=640, batch=64, device=device, workers=8)
