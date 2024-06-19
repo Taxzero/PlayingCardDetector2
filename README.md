@@ -1,5 +1,5 @@
 # PlayingCardDetector2
 Webcam Ver.
 
+![test](https://github.com/Taxzero/PlayingCardDetector2/assets/80513449/065cb4a1-da01-4c06-8fb2-fc6ba600e492)
 
-<img src = "https://github.com/Taxzero/PlayingCardDetector2/assets/80513449/014a6217-ee45-470e-98fa-8a9aa9919b83" >
